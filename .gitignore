@@ -1,0 +1,6 @@
+__pycache__
+build
+dist
+rot-cipher-venv
+rotcipher.egg-info
+.idea
