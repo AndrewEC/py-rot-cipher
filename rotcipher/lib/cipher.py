@@ -47,7 +47,7 @@ def apply_cipher(value: str, character_options: List[str]) -> str:
     Applies the customized rotational substitution cipher to the input value.
 
     This cipher works by:
-    1. Generating two padding characters
+    1. Generating two padding characters that act like a pseudo-random initialization vector.
     2. Converting the padding characters to a numeric value to be used to determine the rotation amount.
     3. Substitute the characters in the source string with the rotated characters pulled from the randomly ordered
     character_options list.
@@ -80,6 +80,8 @@ def reverse_cipher(value: str, character_options: List[str]) -> str:
     be mapped to.
     :return: The original string before the cipher was applied.
     """
+    if len(value) < 2:
+        raise ValueError('The ciphered value must have a minimum length of 2.')
     left_padding = value[0]
     right_padding = value[-1]
     shift_by = character_options.index(left_padding) + character_options.index(right_padding)
