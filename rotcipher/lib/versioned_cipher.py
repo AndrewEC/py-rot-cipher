@@ -59,10 +59,11 @@ def reverse_versioned_cipher(value: str, character_options: Dict[str, List[str]]
     version value pulled from the input value string.
     :return: The original, un-ciphered, version of the input value string.
     """
-    _validate_versions(list(character_options.keys()))
+    character_option_keys = list(character_options.keys())
+    _validate_versions(character_option_keys)
     if len(value) == 0:
         raise ValueError('The value parameter must contain at least one character.')
-    version = _determine_version(value, list(character_options.keys()))
+    version = _determine_version(value, character_option_keys)
     if version is None:
         raise ValueError('Could not determine the appropriate version to use for the input string.')
     ciphered = value[len(version):]
