@@ -8,5 +8,5 @@ if __name__ == '__main__':
         author='Andrew Cumming',
         author_email='andrew.e.cumming@gmail.com',
         url='https://github.com/AndrewEC/py-rot-cipher',
-        packages=['rotcipher']
+        packages=['rotcipher', 'rotcipher.lib']
     )
