@@ -19,3 +19,14 @@ class CipherTests(unittest.TestCase):
         self.assertNotEqual(ciphered[1:len(ciphered) - 1], CipherTests._ORIGINAL_VALUE)
 
         self.assertEqual(CipherTests._ORIGINAL_VALUE, reverse_cipher(ciphered, CipherTests._CHARACTER_OPTIONS))
+
+    def test_cipher_variance(self):
+        def ciphered_less_padding(value: str) -> str:
+            return value[1:len(value) - 1]
+
+        generated = set()
+        option_length = len(CipherTests._CHARACTER_OPTIONS)
+        for i in range(option_length):
+            ciphered = apply_cipher(CipherTests._ORIGINAL_VALUE, CipherTests._CHARACTER_OPTIONS)
+            generated.add(ciphered_less_padding(ciphered))
+        self.assertGreaterEqual(option_length * 0.95, len(generated))

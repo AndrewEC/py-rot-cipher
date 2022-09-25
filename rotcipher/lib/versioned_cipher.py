@@ -10,21 +10,24 @@ def _validate_versions(available_versions: List[str]):
             if i == j:
                 continue
             if available_versions[i] == available_versions[j]:
-                raise ValueError(f'An invalid set of character options were provided. Found two identical versions of [{available_versions[i]}] at [{i}] and [{j}]')
+                raise ValueError('An invalid set of character options were provided. Found two identical versions of'
+                                 f'[{available_versions[i]}] at indexes [{i}] and [{j}]')
 
 
 def apply_versioned_cipher(value: str, character_options: Dict[str, List[str]], version: str) -> str:
     """
-    This works much like the apply_cipher function except that it prepends a version indicator to the front of the
-    ciphered string.
+    This works much like the apply_cipher function except that the result of this function will, in addition to the
+    padding characters appended by the apply_cipher function, also have an additional character pre-pended to the
+    string that identifies the version.
 
-    This function will essentially take the input version value, use it as a key to pull a character list from the
-    character options dictionary, and pass the value and character list to the apply_cipher function. After
+    This function will essentially take the input version, use it as a key to pull a randomly ordered character list
+    from the character options dictionary, and pass the value and character list to the apply_cipher function. After
     the apply_cipher is complete this will prepend the version value to the front of the ciphered string and
     return the final result.
 
     :param value: The input string to be ciphered.
-    :param character_options: A dictionary of all the randomly associated character options with an associated version string.
+    :param character_options: A dictionary of all the randomly associated character options with an associated version
+    string.
     :param version: Indicates which random character option list to the pull from the dictionary of character options.
     :return: A ciphered representation of the input value string.
     """
@@ -48,11 +51,11 @@ def _determine_version(value: str, available_versions: List[str]) -> str | None:
 def reverse_versioned_cipher(value: str, character_options: Dict[str, List[str]]) -> str:
     """
     Works much like the reverse_cipher function with the added step in which this function will pull the
-    leading character from the value string and use it as the version indicator to pull a random character option
+    leading characters from the value string and use it as the version indicator to pull a random character option
     list from the dictionary of character options.
 
     The remaining characters, input value less the first character, will be passed to the reverse_cipher function
-    along with the appropriate random character list pulled from the character_options dictionary.
+    along with the random character list pulled in the aforementioned step.
 
     :param value: The string previously ciphered using the apply_ciphered_versioned function.
     :param character_options: A dictionary containing a series of random character lists to pull from based on the

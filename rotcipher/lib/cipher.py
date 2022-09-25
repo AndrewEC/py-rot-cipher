@@ -5,7 +5,7 @@ import random
 def _compute_next_index(character: str, index: int, shift_by: int, shift_direction: int, character_options: List[str])\
         -> int:
     """
-    Calculates the next index which a character from the CHARACTER_OPTIONS list should be pulled to be used
+    Calculates the next index which a character from the character_options list should be pulled to be used
     to replace the 'character' value from the source string.
 
     :param character: The current character that is being substituted.
@@ -24,7 +24,7 @@ def _compute_next_index(character: str, index: int, shift_by: int, shift_directi
 def _apply_rot(value: str, shift_by: int, character_options: List[str], reverse_modifier=1) -> str:
     """
     Substitutes the characters in the input string with characters pulled from the randomly sorted
-    CHARACTER_OPTIONS list based on the shift_by and reverse_modifier values.
+    character_options list based on the shift_by and reverse_modifier values.
 
     :param value: The input string which will be substituted.
     :param shift_by: The amount to shift, or rotate, by.
@@ -32,7 +32,7 @@ def _apply_rot(value: str, shift_by: int, character_options: List[str], reverse_
     input string or reversing. Should have a value of either 1 or -1.
     :param character_options: The array of characters which the characters in the value string will be mapped to.
     :return: The ciphered string with all the characters from the 'value' string substituted with values pulled
-    from the CHARACTER_OPTIONS list.
+    from the character_options list.
     """
     if shift_by % 2 == 0:
         shift_direction = -1 * reverse_modifier
@@ -49,12 +49,12 @@ def apply_cipher(value: str, character_options: List[str]) -> str:
     This cipher works by:
     1. Generating two padding characters that act like a pseudo-random initialization vector.
     2. Converting the padding characters to a numeric value to be used to determine the rotation amount.
-    3. Substitute the characters in the source string with the rotated characters pulled from the randomly ordered
+    3. Substituting the characters in the source string with the rotated characters pulled from the randomly ordered
     character_options list.
     4. Pre-pending and appending the padding characters in step one to the string generated in step 3.
 
     This method will continuously loop until a ciphered representation of the value string is generated such that the
-    ciphered string is different from the input value string.
+    ciphered string, without the padding characters, is different from the input value string.
 
     :param value: The string which the substitution cipher will be applied to.
     :param character_options: The list of characters which the characters from the input value string will ultimately

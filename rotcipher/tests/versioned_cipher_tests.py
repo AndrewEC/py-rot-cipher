@@ -20,15 +20,26 @@ class VersionedCipherTests(unittest.TestCase):
 
     _CHARACTER_OPTIONS = {
         'A': _CHARACTER_OPTIONS_A,
-        'B': _CHARACTER_OPTIONS_B
+        'BB': _CHARACTER_OPTIONS_B
     }
 
     _ORIGINAL_VALUE = 'This is a test of the versioned cipher functions.'
 
     def test_versioned_cipher(self):
-        ciphered = apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, 'A')
-        self.assertEqual(len(VersionedCipherTests._ORIGINAL_VALUE) + 3, len(ciphered))
+        ciphered = apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, 'BB')
+        self.assertEqual(len(VersionedCipherTests._ORIGINAL_VALUE) + 4, len(ciphered))
         self.assertNotEqual(ciphered[2:len(ciphered) - 1], VersionedCipherTests._ORIGINAL_VALUE)
 
         unciphered = reverse_versioned_cipher(ciphered, VersionedCipherTests._CHARACTER_OPTIONS)
         self.assertEqual(VersionedCipherTests._ORIGINAL_VALUE, unciphered)
+
+    def test_versioned_cipher_with_both_version_dont_match(self):
+        cipher_1 = apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, 'A')
+        cipher_2 = apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, 'BB')
+
+        self.assertNotEqual(cipher_1[1:], cipher_2[1:])
+
+    def test_reverse_versioned_cipher_with_bad_version_throws_exception(self):
+        ciphered = 'C123'
+        with self.assertRaises(ValueError):
+            reverse_versioned_cipher(ciphered, VersionedCipherTests._CHARACTER_OPTIONS)
