@@ -10,7 +10,7 @@ def _validate_versions(available_versions: List[str]):
             if i == j:
                 continue
             if available_versions[i] == available_versions[j]:
-                raise ValueError('An invalid set of character options were provided. Found two identical versions of'
+                raise ValueError('An invalid set of character options were provided. Found two identical versions of '
                                  f'[{available_versions[i]}] at indexes [{i}] and [{j}]')
 
 
@@ -68,8 +68,8 @@ def reverse_versioned_cipher(value: str, character_options: Dict[str, List[str]]
         raise ValueError('The value parameter must contain at least one character.')
     version = _determine_version(value, character_option_keys)
     if version is None:
-        raise ValueError('Could not determine the appropriate version to use for the input string.'
-                         'This string may not have been properly ciphered or the version originally used to apply'
+        raise ValueError('Could not determine the appropriate version to use for the input string. '
+                         'This string may not have been properly ciphered or the version originally used to apply '
                          'the rotational cipher is not available as a key in the character_options dictionary.')
     ciphered = value[len(version):]
     return reverse_cipher(ciphered, character_options[version])

@@ -12,26 +12,26 @@ CHARACTER_OPTIONS = {
 }
 
 
-@click.command()
+@click.command('apply')
 @click.argument('value')
 def apply(value: str):
     print(apply_cipher(value, CHARACTER_OPTIONS_A))
 
 
-@click.command()
+@click.command('reverse')
 @click.argument('value')
 def reverse(value: str):
     print(reverse_cipher(value, CHARACTER_OPTIONS_A))
 
 
-@click.command()
+@click.command('apply-versioned')
 @click.argument('version', type=click.Choice(list(CHARACTER_OPTIONS.keys())))
 @click.argument('value')
 def apply_versioned(version: str, value: str):
     print(apply_versioned_cipher(value, CHARACTER_OPTIONS, version))
 
 
-@click.command()
+@click.command('reverse-versioned')
 @click.argument('value')
 def reverse_versioned(value: str):
     print(reverse_versioned_cipher(value, CHARACTER_OPTIONS))

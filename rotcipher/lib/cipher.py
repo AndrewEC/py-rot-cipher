@@ -54,7 +54,7 @@ def apply_cipher(value: str, character_options: List[str]) -> str:
     4. Pre-pending and appending the padding characters in step one to the string generated in step 3.
 
     This method will continuously loop until a ciphered representation of the value string is generated such that the
-    ciphered string, without the padding characters, is different from the input value string.
+    ciphered string, without the padding characters, is not strictly equal to the input value string.
 
     :param value: The string which the substitution cipher will be applied to.
     :param character_options: The list of characters which the characters from the input value string will ultimately
