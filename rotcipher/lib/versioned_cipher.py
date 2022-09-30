@@ -17,8 +17,8 @@ def _validate_versions(available_versions: List[str]):
 def apply_versioned_cipher(value: str, character_options: Dict[str, List[str]], version: str) -> str:
     """
     This works much like the apply_cipher function except that the result of this function will, in addition to the
-    padding characters appended by the apply_cipher function, also have an additional character pre-pended to the
-    string that identifies the version.
+    padding characters appended by the apply_cipher function, pre-pend an additional character to the resulting ciphered
+    string. This additional character will be used to represent the version of the cipher applied.
 
     This function will essentially take the input version, use it as a key to pull a randomly ordered character list
     from the character options dictionary, and pass the value and character list to the apply_cipher function. After

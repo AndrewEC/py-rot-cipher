@@ -9,7 +9,7 @@ dependency as well as the rotcipher package.
 After installation, you can apply and reverse the rotational cipher on a string using
 `python run.py apply string_to_encode` and `python run.py reverse string_to_decode` respectively.
 
-Additionally, you can apply and reverse versioned rotational cipher on a string using
+Additionally, you can apply and reverse a versioned rotational cipher on a string using
 `python run.py apply-versioned A string_to_encode` and `python run.py reverse-versioned string_to_decode`
 respectively.
 
