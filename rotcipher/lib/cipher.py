@@ -2,6 +2,14 @@ from typing import List
 import random
 
 
+def _validate_character_options(character_options: List[str]):
+    for character in character_options:
+        character_length = len(character)
+        if character_length > 1:
+            raise ValueError('All entries in the character_options list must be a single character. '
+                             f'Character [{character}] has a length of [{character_length}]')
+
+
 def _compute_next_index(character: str, index: int, shift_by: int, shift_direction: int, character_options: List[str])\
         -> int:
     """
@@ -43,6 +51,7 @@ def _apply_rot(value: str, shift_by: int, character_options: List[str], reverse_
             return fallback
         return character_options[index]
 
+    _validate_character_options(character_options)
     if shift_by % 2 == 0:
         shift_direction = -1 * reverse_modifier
     else:
@@ -94,6 +103,7 @@ def reverse_cipher(value: str, character_options: List[str]) -> str:
     :return: The original string before the cipher was applied.
     """
 
+    _validate_character_options(character_options)
     if len(value) < 2:
         raise ValueError('The ciphered value must have a minimum length of 2.')
     left_padding = value[0]
