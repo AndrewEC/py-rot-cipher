@@ -31,6 +31,7 @@ def apply_versioned_cipher(value: str, character_options: Dict[str, List[str]], 
     :param version: Indicates which random character option list to the pull from the dictionary of character options.
     :return: A ciphered representation of the input value string.
     """
+
     _validate_versions(list(character_options.keys()))
     if version not in character_options:
         raise ValueError(f'The provided version [{version}] cannot be found in the provided dictionary of character options.')
@@ -62,6 +63,7 @@ def reverse_versioned_cipher(value: str, character_options: Dict[str, List[str]]
     version value pulled from the input value string.
     :return: The original, un-ciphered, version of the input value string.
     """
+
     character_option_keys = list(character_options.keys())
     _validate_versions(character_option_keys)
     if len(value) == 0:

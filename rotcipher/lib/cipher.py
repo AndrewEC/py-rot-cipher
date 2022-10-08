@@ -18,6 +18,9 @@ def _compute_next_index(character: str, index: int, shift_by: int, shift_directi
     :return: The index of the character in the character_options list that should be used to replace the input
     'character' from the source string that is being substituted.
     """
+
+    if character not in character_options:
+        return -1
     return (character_options.index(character) + (shift_by * index * shift_direction)) % len(character_options)
 
 
@@ -34,12 +37,18 @@ def _apply_rot(value: str, shift_by: int, character_options: List[str], reverse_
     :return: The ciphered string with all the characters from the 'value' string substituted with values pulled
     from the character_options list.
     """
+
+    def next_character_option(index: int, fallback: str) -> str:
+        if index == -1:
+            return fallback
+        return character_options[index]
+
     if shift_by % 2 == 0:
         shift_direction = -1 * reverse_modifier
     else:
         shift_direction = reverse_modifier
     indexes = [_compute_next_index(value[i], i, shift_by, shift_direction, character_options) for i in range(len(value))]
-    return ''.join(character_options[index] for index in indexes)
+    return ''.join(next_character_option(index, value[i]) for i, index in enumerate(indexes))
 
 
 def apply_cipher(value: str, character_options: List[str]) -> str:
@@ -53,8 +62,11 @@ def apply_cipher(value: str, character_options: List[str]) -> str:
     character_options list.
     4. Pre-pending and appending the padding characters in step one to the string generated in step 3.
 
-    This method will continuously loop until a ciphered representation of the value string is generated such that the
+    This function will continuously loop until a ciphered representation of the value string is generated such that the
     ciphered string, without the padding characters, is not strictly equal to the input value string.
+
+    Additionally, this function will skip any characters in the input value string if the input character cannot
+    be found within the list of character options.
 
     :param value: The string which the substitution cipher will be applied to.
     :param character_options: The list of characters which the characters from the input value string will ultimately
@@ -62,6 +74,7 @@ def apply_cipher(value: str, character_options: List[str]) -> str:
     :return: A string representation of the ciphered text including some padding characters used in calculating
     the rotation amount and direction.
     """
+
     while True:
         left_padding = random.choice(character_options)
         right_padding = random.choice(character_options)
@@ -80,6 +93,7 @@ def reverse_cipher(value: str, character_options: List[str]) -> str:
     be mapped to.
     :return: The original string before the cipher was applied.
     """
+
     if len(value) < 2:
         raise ValueError('The ciphered value must have a minimum length of 2.')
     left_padding = value[0]
