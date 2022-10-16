@@ -1,3 +1,5 @@
+from typing import List
+
 import unittest
 
 from ..lib import apply_cipher, reverse_cipher
@@ -16,15 +18,17 @@ class CipherTests(unittest.TestCase):
     def _ciphered_less_padding(self, value: str) -> str:
         return value[1:len(value) - 1]
 
+    def _position_of_spaces(self, value: str) -> List[int]:
+        return [index for index, character in enumerate(value) if character == ' ']
+
     def test_cipher(self):
         ciphered = apply_cipher(CipherTests._ORIGINAL_VALUE, CipherTests._CHARACTER_OPTIONS)
         self.assertEqual(len(CipherTests._ORIGINAL_VALUE) + 2, len(ciphered))
-        self.assertNotEqual(ciphered[1:len(ciphered) - 1], CipherTests._ORIGINAL_VALUE)
+        self.assertNotEqual(self._ciphered_less_padding(ciphered), CipherTests._ORIGINAL_VALUE)
 
         self.assertEqual(CipherTests._ORIGINAL_VALUE, reverse_cipher(ciphered, CipherTests._CHARACTER_OPTIONS))
 
     def test_cipher_variance(self):
-
         generated = set()
         option_length = len(CipherTests._CHARACTER_OPTIONS)
         for i in range(option_length):
@@ -37,10 +41,10 @@ class CipherTests(unittest.TestCase):
         options.pop(options.index(' '))
         self.assertFalse(' ' in options)
 
-        original_space_positions = [index for index, character in enumerate(CipherTests._ORIGINAL_VALUE) if character == ' ']
+        original_space_positions = self._position_of_spaces(CipherTests._ORIGINAL_VALUE)
         ciphered = apply_cipher(CipherTests._ORIGINAL_VALUE, options)
 
         self.assertNotEqual(CipherTests._ORIGINAL_VALUE, ciphered)
-        new_space_positions = [index for index, character in enumerate(self._ciphered_less_padding(ciphered)) if character == ' ']
+        new_space_positions = self._position_of_spaces(self._ciphered_less_padding(ciphered))
 
         self.assertEqual(original_space_positions, new_space_positions)

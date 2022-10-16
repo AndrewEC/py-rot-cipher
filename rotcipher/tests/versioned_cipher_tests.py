@@ -33,13 +33,17 @@ class VersionedCipherTests(unittest.TestCase):
         unciphered = reverse_versioned_cipher(ciphered, VersionedCipherTests._CHARACTER_OPTIONS)
         self.assertEqual(VersionedCipherTests._ORIGINAL_VALUE, unciphered)
 
-    def test_versioned_cipher_with_both_version_dont_match(self):
-        cipher_1 = apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, 'A')
-        cipher_2 = apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, 'BB')
-
-        self.assertNotEqual(cipher_1[1:], cipher_2[1:])
-
     def test_reverse_versioned_cipher_with_bad_version_throws_exception(self):
         ciphered = 'C123'
         with self.assertRaises(ValueError):
             reverse_versioned_cipher(ciphered, VersionedCipherTests._CHARACTER_OPTIONS)
+
+    def test_reverse_versioned_cipher_with_missmatched_versions_produced_incorrect_result(self):
+        reverse_options = {
+            'BB': VersionedCipherTests._CHARACTER_OPTIONS_A,
+            'A': VersionedCipherTests._CHARACTER_OPTIONS_B
+        }
+
+        ciphered = apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, 'BB')
+        unciphered = reverse_versioned_cipher(ciphered, reverse_options)
+        self.assertNotEqual(VersionedCipherTests._ORIGINAL_VALUE, unciphered)
