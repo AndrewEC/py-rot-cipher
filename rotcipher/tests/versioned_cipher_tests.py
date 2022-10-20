@@ -35,8 +35,9 @@ class VersionedCipherTests(unittest.TestCase):
 
     def test_reverse_versioned_cipher_with_bad_version_throws_exception(self):
         ciphered = 'C123'
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValueError) as error:
             reverse_versioned_cipher(ciphered, VersionedCipherTests._CHARACTER_OPTIONS)
+        self.assertTrue(str(error.exception).startswith('Could not determine'))
 
     def test_reverse_versioned_cipher_with_missmatched_versions_produced_incorrect_result(self):
         reverse_options = {

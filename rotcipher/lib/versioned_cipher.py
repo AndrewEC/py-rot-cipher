@@ -3,17 +3,6 @@ from typing import List, Dict
 from .cipher import apply_cipher, reverse_cipher
 
 
-def _validate_versions(available_versions: List[str]):
-    version_count = len(available_versions)
-    for i in range(version_count):
-        for j in range(version_count):
-            if i == j:
-                continue
-            if available_versions[i] == available_versions[j]:
-                raise ValueError('An invalid set of character options were provided. Found two identical versions of '
-                                 f'[{available_versions[i]}] at indexes [{i}] and [{j}]')
-
-
 def apply_versioned_cipher(value: str, character_options: Dict[str, List[str]], version: str) -> str:
     """
     This works much like the apply_cipher function except that the result of this function will, in addition to the
@@ -26,13 +15,12 @@ def apply_versioned_cipher(value: str, character_options: Dict[str, List[str]], 
     return the final result.
 
     :param value: The input string to be ciphered.
-    :param character_options: A dictionary of all the randomly associated character options with an associated version
+    :param character_options: A dictionary of all the randomly ordered character options with an associated version
     string.
     :param version: Indicates which random character option list to the pull from the dictionary of character options.
     :return: A ciphered representation of the input value string.
     """
 
-    _validate_versions(list(character_options.keys()))
     if version not in character_options:
         raise ValueError(f'The provided version [{version}] cannot be found in the provided dictionary of character options.')
     ciphered = apply_cipher(value, character_options[version])
@@ -65,7 +53,6 @@ def reverse_versioned_cipher(value: str, character_options: Dict[str, List[str]]
     """
 
     character_option_keys = list(character_options.keys())
-    _validate_versions(character_option_keys)
     if len(value) == 0:
         raise ValueError('The value parameter must contain at least one character.')
     version = _determine_version(value, character_option_keys)
