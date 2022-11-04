@@ -23,18 +23,18 @@ class CipherTests(unittest.TestCase):
 
     def test_cipher(self):
         ciphered = apply_cipher(CipherTests._ORIGINAL_VALUE, CipherTests._CHARACTER_OPTIONS)
-        self.assertEqual(len(CipherTests._ORIGINAL_VALUE) + 2, len(ciphered))
+        self.assertEqual(len(CipherTests._ORIGINAL_VALUE), len(self._ciphered_less_padding(ciphered)))
         self.assertNotEqual(self._ciphered_less_padding(ciphered), CipherTests._ORIGINAL_VALUE)
 
         self.assertEqual(CipherTests._ORIGINAL_VALUE, reverse_cipher(ciphered, CipherTests._CHARACTER_OPTIONS))
 
     def test_cipher_variance(self):
         generated = set()
-        option_length = len(CipherTests._CHARACTER_OPTIONS)
-        for i in range(option_length):
+        ciphers_to_generate = len(CipherTests._CHARACTER_OPTIONS) * 10
+        for i in range(ciphers_to_generate):
             ciphered = apply_cipher(CipherTests._ORIGINAL_VALUE, CipherTests._CHARACTER_OPTIONS)
             generated.add(self._ciphered_less_padding(ciphered))
-        self.assertGreaterEqual(option_length * 0.95, len(generated))
+        self.assertGreaterEqual(ciphers_to_generate * 0.95, len(generated))
 
     def test_cipher_without_replacing_spaces(self):
         options = CipherTests._CHARACTER_OPTIONS[:]

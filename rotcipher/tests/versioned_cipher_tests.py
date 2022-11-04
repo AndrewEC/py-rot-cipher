@@ -18,17 +18,23 @@ class VersionedCipherTests(unittest.TestCase):
                             'w', 'z', '3', 'L', '5', 'y', '@', ';', '^', ',', 'Y', 'S', 'u', 'h', 'x', '6', 'e', ' ',
                             '`', 'b', '*', ']', 'p']
 
+    _OPTION_A = 'A'
+    _OPTION_B = 'AB'
+
     _CHARACTER_OPTIONS = {
-        'A': _CHARACTER_OPTIONS_A,
-        'BB': _CHARACTER_OPTIONS_B
+        _OPTION_A: _CHARACTER_OPTIONS_A,
+        _OPTION_B: _CHARACTER_OPTIONS_B
     }
 
     _ORIGINAL_VALUE = 'This is a test of the versioned cipher functions.'
 
+    def _ciphered_less_padding(self, ciphered: str) -> str:
+        return ciphered[3:len(ciphered) - 1]
+
     def test_versioned_cipher(self):
-        ciphered = apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, 'BB')
+        ciphered = apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, VersionedCipherTests._OPTION_B)
         self.assertEqual(len(VersionedCipherTests._ORIGINAL_VALUE) + 4, len(ciphered))
-        self.assertNotEqual(ciphered[2:len(ciphered) - 1], VersionedCipherTests._ORIGINAL_VALUE)
+        self.assertNotEqual(self._ciphered_less_padding(ciphered), VersionedCipherTests._ORIGINAL_VALUE)
 
         unciphered = reverse_versioned_cipher(ciphered, VersionedCipherTests._CHARACTER_OPTIONS)
         self.assertEqual(VersionedCipherTests._ORIGINAL_VALUE, unciphered)
@@ -41,10 +47,10 @@ class VersionedCipherTests(unittest.TestCase):
 
     def test_reverse_versioned_cipher_with_missmatched_versions_produced_incorrect_result(self):
         reverse_options = {
-            'BB': VersionedCipherTests._CHARACTER_OPTIONS_A,
-            'A': VersionedCipherTests._CHARACTER_OPTIONS_B
+            VersionedCipherTests._OPTION_A: VersionedCipherTests._CHARACTER_OPTIONS_B,
+            VersionedCipherTests._OPTION_B: VersionedCipherTests._CHARACTER_OPTIONS_A
         }
 
-        ciphered = apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, 'BB')
+        ciphered = apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, VersionedCipherTests._OPTION_B)
         unciphered = reverse_versioned_cipher(ciphered, reverse_options)
         self.assertNotEqual(VersionedCipherTests._ORIGINAL_VALUE, unciphered)
