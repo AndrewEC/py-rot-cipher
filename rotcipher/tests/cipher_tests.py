@@ -2,7 +2,7 @@ from typing import List
 
 import unittest
 
-from ..lib import apply_cipher, reverse_cipher
+from ..lib import apply_cipher, reverse_cipher, CipherException
 
 
 class CipherTests(unittest.TestCase):
@@ -48,3 +48,23 @@ class CipherTests(unittest.TestCase):
         new_space_positions = self._position_of_spaces(self._ciphered_less_padding(ciphered))
 
         self.assertEqual(original_space_positions, new_space_positions)
+
+        unciphered = reverse_cipher(ciphered, options)
+        self.assertEqual(unciphered, CipherTests._ORIGINAL_VALUE)
+
+    def test_apply_cipher_with_empty_character_list_raises_cipher_exception(self):
+        options = ['*']
+        with self.assertRaises(CipherException):
+            apply_cipher(CipherTests._ORIGINAL_VALUE, options)
+
+    def test_apply_cipher_with_empty_character_list_raises_value_error(self):
+        with self.assertRaises(ValueError):
+            apply_cipher(CipherTests._ORIGINAL_VALUE, [])
+
+    def test_apply_cipher_with_character_option_length_of_two_raises_value_error(self):
+        with self.assertRaises(ValueError):
+            apply_cipher(CipherTests._ORIGINAL_VALUE, ['test'])
+
+    def test_reverse_cipher_with_zero_length_string_raises_value_error(self):
+        with self.assertRaises(ValueError):
+            reverse_cipher('', CipherTests._CHARACTER_OPTIONS)

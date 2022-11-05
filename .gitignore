@@ -4,3 +4,7 @@ dist
 rot-cipher-venv
 rotcipher.egg-info
 .idea
+.coverage
+htmlcov
+.mutmut-cache
+html

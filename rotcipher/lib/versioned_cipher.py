@@ -53,8 +53,8 @@ def reverse_versioned_cipher(value: str, character_options: Dict[str, List[str]]
     """
 
     character_option_keys = list(character_options.keys())
-    if len(value) == 0:
-        raise ValueError('The value parameter must contain at least one character.')
+    if len(value) < 0:
+        raise ValueError('The value parameter must contain at least two characters.')
     version = _determine_version(value, character_option_keys)
     if version is None:
         raise ValueError('Could not determine the appropriate version to use for the input string. '

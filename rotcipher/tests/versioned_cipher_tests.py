@@ -54,3 +54,11 @@ class VersionedCipherTests(unittest.TestCase):
         ciphered = apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, VersionedCipherTests._OPTION_B)
         unciphered = reverse_versioned_cipher(ciphered, reverse_options)
         self.assertNotEqual(VersionedCipherTests._ORIGINAL_VALUE, unciphered)
+
+    def test_apply_versioned_cipher_with_invalid_version_raises_value_error(self):
+        with self.assertRaises(ValueError):
+            apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, 'D')
+
+    def test_reverse_version_cipher_with_zero_length_value_input_raises_value_error(self):
+        with self.assertRaises(ValueError):
+            reverse_versioned_cipher('', VersionedCipherTests._CHARACTER_OPTIONS)

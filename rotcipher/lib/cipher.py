@@ -1,8 +1,14 @@
 from typing import List
 import random
+from .cipher_exception import CipherException
+
+
+_CIPHER_ATTEMPTS_BEFORE_QUITTING = 100  # pragma: no mutate
 
 
 def _validate_character_options(character_options: List[str]):
+    if len(character_options) == 0:
+        raise ValueError('The character_options must contain at least one element.')
     for character in character_options:
         character_length = len(character)
         if character_length > 1:
@@ -51,13 +57,12 @@ def _apply_rot(value: str, shift_by: int, character_options: List[str], reverse_
             return fallback
         return character_options[index]
 
-    _validate_character_options(character_options)
     if shift_by % 2 == 0:
         shift_direction = -1 * reverse_modifier
     else:
         shift_direction = reverse_modifier
     indexes = [_compute_next_index(value[i], i, shift_by, shift_direction, character_options) for i in range(len(value))]
-    return ''.join(next_character_option(index, value[i]) for i, index in enumerate(indexes))
+    return ''.join(next_character_option(computed_index, value[i]) for i, computed_index in enumerate(indexes))
 
 
 def apply_cipher(value: str, character_options: List[str]) -> str:
@@ -84,13 +89,17 @@ def apply_cipher(value: str, character_options: List[str]) -> str:
     the rotation amount and direction.
     """
 
-    while True:
+    _validate_character_options(character_options)
+
+    for i in range(_CIPHER_ATTEMPTS_BEFORE_QUITTING):
         left_padding = random.choice(character_options)
         right_padding = random.choice(character_options)
         shift_by = character_options.index(left_padding) + character_options.index(right_padding)
         shifted = _apply_rot(value, shift_by, character_options)
         if shifted != value:
             return '{}{}{}'.format(left_padding, shifted, right_padding)
+    raise CipherException('After 100 attempts apply_cipher was not able to generate a ciphered value different from '
+                          'the original.')
 
 
 def reverse_cipher(value: str, character_options: List[str]) -> str:
@@ -104,8 +113,9 @@ def reverse_cipher(value: str, character_options: List[str]) -> str:
     """
 
     _validate_character_options(character_options)
-    if len(value) < 2:
-        raise ValueError('The ciphered value must have a minimum length of 2.')
+
+    if len(value) == 0:
+        raise ValueError('The ciphered value must have a minimum length of 1.')
     left_padding = value[0]
     right_padding = value[-1]
     shift_by = character_options.index(left_padding) + character_options.index(right_padding)

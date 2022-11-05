@@ -1,1 +1,4 @@
 click==8.0.4
+coverage==6.3.2
+mutmut==2.4.0
+flake8==4.0.1
