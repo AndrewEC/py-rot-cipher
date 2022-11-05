@@ -17,17 +17,17 @@ respectively.
 Before running any of the scripts or commands listed below you should create or activate the appropriate virtual
 environment using the script `CreateVenv.ps1`.
 
-## Unit Tests
+### Unit Tests
 Execute the unit tests and generate a code coverage report:
 > Coverage.ps1
 
 Alternatively you can execute unit tests without any code coverage:
 > python -m unittest rotcipher.tests.__run_all
 
-## Mutation Test
+### Mutation Test
 Execute the mutation tests and view the kill count report:
 > Mutations.ps1
 
-## Linting
+### Linting
 To run flake8 and view the results:
 > flake8
