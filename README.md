@@ -2,6 +2,10 @@
 A POC Python implementation of a rotational cipher that tries to overcome the most common pitfalls of using a
 simple rotational cipher without making the implementation overly complicated.
 
+## Cloning
+To clone the project and the required submodules run:
+> git clone --recurse-submodules https://github.com/AndrewEC/py-encoder.git
+
 ## Usage
 Run the powershell script `CreateVenv.ps1` to create a virtual environment which will install the required Click
 dependency as well as the rotcipher package.
@@ -14,20 +18,5 @@ Additionally, you can apply and reverse a versioned rotational cipher on a strin
 respectively.
 
 ## Quality Metrics
-Before running any of the scripts or commands listed below you should create or activate the appropriate virtual
-environment using the script `CreateVenv.ps1`.
-
-### Unit Tests
-Execute the unit tests and generate a code coverage report:
-> Coverage.ps1
-
-Alternatively you can execute unit tests without any code coverage:
-> python -m unittest rotcipher.tests.__run_all
-
-### Mutation Test
-Execute the mutation tests and view the kill count report:
-> Mutations.ps1
-
-### Linting
-To run flake8 and view the results:
-> flake8
+To run the unit and integration tests simply run the `CreateVenv.ps1` script the run the build script via:
+`python build.py`
