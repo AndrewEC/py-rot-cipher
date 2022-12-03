@@ -16,7 +16,7 @@ def apply_versioned_cipher(value: str, character_options: Dict[str, List[str]], 
 
     :param value: The input string to be ciphered.
     :param character_options: A dictionary of all the randomly ordered character options with an associated version
-    string.
+        string.
     :param version: Indicates which random character option list to the pull from the dictionary of character options.
     :return: A ciphered representation of the input value string.
     """
@@ -48,7 +48,7 @@ def reverse_versioned_cipher(value: str, character_options: Dict[str, List[str]]
 
     :param value: The string previously ciphered using the apply_ciphered_versioned function.
     :param character_options: A dictionary containing a series of random character lists to pull from based on the
-    version value pulled from the input value string.
+        version value pulled from the input value string.
     :return: The original, un-ciphered, version of the input value string.
     """
 

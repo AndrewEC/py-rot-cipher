@@ -24,13 +24,13 @@ def _compute_next_index(character: str, index: int, shift_by: int, shift_directi
 
     :param character: The current character that is being substituted.
     :param index: The index of the 'character' as it appears in the string that is being substituted. Used to reduce
-    the likelihood that repeated characters in the input string being substituted will be substituted with different
-    but also repeating characters.
+        the likelihood that repeated characters in the input string being substituted will be substituted with different
+        but also repeating characters.
     :param shift_by: The number of positions to shift by. This number should always be a positive.
     :param shift_direction: The direction to shift by. Can be either 1 or -1.
     :param character_options: The array of characters used to compute the index.
     :return: The index of the character in the character_options list that should be used to replace the input
-    'character' from the source string that is being substituted.
+        'character' from the source string that is being substituted.
     """
 
     if character not in character_options:
@@ -46,10 +46,10 @@ def _apply_rot(value: str, shift_by: int, character_options: List[str], reverse_
     :param value: The input string which will be substituted.
     :param shift_by: The amount to shift, or rotate, by.
     :param reverse_modifier: A modifier to be used to indicate whether we are applying the cipher to the given
-    input string or reversing. Should have a value of either 1 or -1.
+        input string or reversing. Should have a value of either 1 or -1.
     :param character_options: The array of characters which the characters in the value string will be mapped to.
     :return: The ciphered string with all the characters from the 'value' string substituted with values pulled
-    from the character_options list.
+        from the character_options list.
     """
 
     def next_character_option(index: int, fallback: str) -> str:
@@ -84,9 +84,9 @@ def apply_cipher(value: str, character_options: List[str]) -> str:
 
     :param value: The string which the substitution cipher will be applied to.
     :param character_options: The list of characters which the characters from the input value string will ultimately
-    be mapped to.
+        be mapped to.
     :return: A string representation of the ciphered text including some padding characters used in calculating
-    the rotation amount and direction.
+        the rotation amount and direction.
     """
 
     _validate_character_options(character_options)
@@ -108,7 +108,7 @@ def reverse_cipher(value: str, character_options: List[str]) -> str:
 
     :param value: The ciphered string which is to have the substitution process reversed.
     :param character_options: The list of characters which the characters from the input value string will ultimately
-    be mapped to.
+        be mapped to.
     :return: The original string before the cipher was applied.
     """
 
