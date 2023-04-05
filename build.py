@@ -9,7 +9,6 @@ from buildutils.plugins import CoveragePlugin, MutationPlugin, FlakePlugin,\
 @click.option('--plugins', '-p')
 @click.option('--list-plugins', '-l', is_flag=True)
 def main(profile: str, plugins: str, list_plugins: bool):
-
     (
         BuildConfiguration()
         .config('build.ini')
