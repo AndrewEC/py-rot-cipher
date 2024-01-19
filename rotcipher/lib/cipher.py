@@ -106,6 +106,9 @@ def reverse_cipher(value: str, character_options: List[str]) -> str:
     """
     Reverses the customized rotational substitution cipher that was previously applied to the input value string.
 
+    In order for this to succeed the character_options needs to strictly match the character_options used when
+    invoking the apply_cipher function.
+
     :param value: The ciphered string which is to have the substitution process reversed.
     :param character_options: The list of characters which the characters from the input value string will ultimately
         be mapped to.
