@@ -11,9 +11,9 @@ def _validate_character_options(character_options: List[str]):
         raise ValueError('The character_options must contain at least one element.')
     for character in character_options:
         character_length = len(character)
-        if character_length > 1:
+        if character_length != 1:
             raise ValueError('All entries in the character_options list must be a single character. '
-                             f'Character [{character}] has a length of [{character_length}]')
+                             f'Character [{character}] has a length of [{character_length}].')
 
 
 def _compute_next_index(character: str, index: int, shift_by: int, shift_direction: int, character_options: List[str])\
@@ -53,6 +53,8 @@ def _apply_rot(value: str, shift_by: int, character_options: List[str], reverse_
     """
 
     def next_character_option(index: int, fallback: str) -> str:
+        # -1 means the original character from the input string could not be found in the character option list
+        # and therefore needs to be skipped.
         if index == -1:
             return fallback
         return character_options[index]
@@ -97,9 +99,13 @@ def apply_cipher(value: str, character_options: List[str]) -> str:
         shift_by = character_options.index(left_padding) + character_options.index(right_padding)
         shifted = _apply_rot(value, shift_by, character_options)
         if shifted != value:
-            return '{}{}{}'.format(left_padding, shifted, right_padding)
-    raise CipherException('After 100 attempts apply_cipher was not able to generate a ciphered value different from '
-                          'the original.')
+            return left_padding + shifted + right_padding
+    raise CipherException(f'After {_CIPHER_ATTEMPTS_BEFORE_QUITTING} attempts apply_cipher was not able to generate '
+                          f'a ciphered value different from the original.')
+
+
+def _value_without_padding_characters(value: str) -> str:
+    return value[1:-1]
 
 
 def reverse_cipher(value: str, character_options: List[str]) -> str:
@@ -119,7 +125,14 @@ def reverse_cipher(value: str, character_options: List[str]) -> str:
 
     if len(value) == 0:
         raise ValueError('The ciphered value must have a minimum length of 1.')
+
     left_padding = value[0]
     right_padding = value[-1]
+
+    if left_padding not in character_options:
+        raise CipherException(f'Could not reverse cipher on input string. Padding character [{left_padding}] could not be '
+                              f'found')
+
     shift_by = character_options.index(left_padding) + character_options.index(right_padding)
-    return _apply_rot(value[1:-1], shift_by, character_options, -1)
+    value_without_padding = _value_without_padding_characters(value)
+    return _apply_rot(value_without_padding, shift_by, character_options, -1)

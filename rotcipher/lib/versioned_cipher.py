@@ -21,20 +21,16 @@ def apply_versioned_cipher(value: str, character_options: Dict[str, List[str]], 
     :return: A ciphered representation of the input value string.
     """
 
+    for key in character_options.keys():
+        key_length = len(key)
+        if key_length != 1:
+            raise ValueError(f'All keys in the character_options dictionary must be a single character. '
+                             f'The key [{key}] has a length of [{key_length}].')
+
     if version not in character_options:
         raise ValueError(f'The provided version [{version}] cannot be found in the provided dictionary of character options.')
     ciphered = apply_cipher(value, character_options[version])
     return version + ciphered
-
-
-def _determine_version(value: str, available_versions: List[str]) -> str | None:
-    value_length = len(value)
-    for version in sorted(available_versions, key=len, reverse=True):
-        if len(version) > value_length:
-            continue
-        if value.startswith(version):
-            return version
-    return None
 
 
 def reverse_versioned_cipher(value: str, character_options: Dict[str, List[str]]) -> str:
@@ -52,13 +48,12 @@ def reverse_versioned_cipher(value: str, character_options: Dict[str, List[str]]
     :return: The original, un-ciphered, version of the input value string.
     """
 
-    character_option_keys = list(character_options.keys())
-    if len(value) < 0:
-        raise ValueError('The value parameter must contain at least two characters.')
-    version = _determine_version(value, character_option_keys)
-    if version is None:
+    if len(value) < 3:
+        raise ValueError('The value parameter must contain at least three characters.')
+    version = value[0]
+    if version not in character_options:
         raise ValueError('Could not determine the appropriate version to use for the input string. '
                          'This string may not have been properly ciphered or the version originally used to apply '
                          'the rotational cipher is not available as a key in the character_options dictionary.')
-    ciphered = value[len(version):]
+    ciphered = value[1:]
     return reverse_cipher(ciphered, character_options[version])

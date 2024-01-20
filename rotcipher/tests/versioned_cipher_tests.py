@@ -19,7 +19,7 @@ class VersionedCipherTests(unittest.TestCase):
                             '`', 'b', '*', ']', 'p']
 
     _OPTION_A = 'A'
-    _OPTION_B = 'AB'
+    _OPTION_B = 'B'
 
     _CHARACTER_OPTIONS = {
         _OPTION_A: _CHARACTER_OPTIONS_A,
@@ -33,7 +33,7 @@ class VersionedCipherTests(unittest.TestCase):
 
     def test_versioned_cipher(self):
         ciphered = apply_versioned_cipher(VersionedCipherTests._ORIGINAL_VALUE, VersionedCipherTests._CHARACTER_OPTIONS, VersionedCipherTests._OPTION_B)
-        self.assertEqual(len(VersionedCipherTests._ORIGINAL_VALUE) + 4, len(ciphered))
+        self.assertEqual(len(VersionedCipherTests._ORIGINAL_VALUE) + 3, len(ciphered))
         self.assertNotEqual(self._ciphered_less_padding(ciphered), VersionedCipherTests._ORIGINAL_VALUE)
 
         unciphered = reverse_versioned_cipher(ciphered, VersionedCipherTests._CHARACTER_OPTIONS)
